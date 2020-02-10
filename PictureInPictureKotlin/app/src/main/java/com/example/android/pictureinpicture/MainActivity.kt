@@ -27,6 +27,7 @@ import android.content.res.Configuration
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Rational
@@ -36,6 +37,7 @@ import android.widget.ScrollView
 import com.example.android.pictureinpicture.widget.MovieView
 import java.util.*
 
+private const val TAG = "MainActivity"
 
 /**
  * Demonstrates usage of Picture-in-Picture mode on phones and tablets.
@@ -188,11 +190,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
+        Log.i(TAG, "onRestart")
         super.onRestart()
         // Show the video controls so the video can be easily resumed.
         if (!isInPictureInPictureMode) {
             mMovieView.showControls()
         }
+    }
+
+    override fun onStart() {
+        Log.i(TAG, "onStart")
+        super.onStart()
+    }
+
+    // Not being called when the other Activity enters PIP mode.
+    override fun onResume() {
+        Log.i(TAG, "onResume")
+        super.onResume()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -263,7 +277,7 @@ class MainActivity : AppCompatActivity() {
     private inner class SwitchActivityOnClick : View.OnClickListener {
         override fun onClick(view: View) {
             startActivity(Intent(view.context, MediaSessionPlaybackActivity::class.java))
-            finish()
+            //finish()
         }
     }
 }
